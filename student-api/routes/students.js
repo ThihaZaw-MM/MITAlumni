@@ -51,7 +51,7 @@ router.get("/major", auth.ensureAuth(), function(req, res) {
 });
 
 //Get all students
-router.get("/", auth.ensureAuth(), function(req, res) {
+router.get("/",  function(req, res) {
 	db.students.find({}, function(err, data) {
 		res.status(200).json(data);
 	});
