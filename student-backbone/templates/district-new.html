@@ -1,0 +1,22 @@
+<h2>New District</h2>
+
+<form action="#" id="new-district-form">
+	<div class="form-group">
+		<label for="">StateNumber *</label>
+		<select class="form-control" id="stateNumber">
+          <% _.each(statenumbers, function(statenumber, val) { %>
+            <option value="<%= val %>"><%= statenumber %></option>
+          <% }); %>
+        </select>
+	</div>
+	
+	<div class="form-group">
+		<label for="">District</label>
+		<input type="text" class="form-control" id="districtName"
+			placeholder="Email">
+	</div>
+	<button type="submit" class="btn btn-primary btn-lg" id="add-district">
+		<span class="glyphicon glyphicon-sign"></span>
+		Add District
+	</button>
+</form>

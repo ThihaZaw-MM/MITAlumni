@@ -1,0 +1,123 @@
+<form action="#" enctype="multipart/form-data" id="new-student-form">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="">Name *</label>
+        <input type="text" class="form-control" placeholder="Name" id="studentName">
+      </div>
+      <div class="col-sm-6">
+        <img height="150" src="/./images/default_photo.png" class="img-thumbnail" alt="Cinque Terre" width="204" height="136" id="profilePhoto"/>
+        <br>
+        <label class="btn btn-primary">
+                Browse&hellip; <input id="fileInput" type="file" style="display: none;">
+        </label>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="form-group">
+    <label for="">NRC *</label>
+    <div class="row">
+      <div class="col-sm-3">
+        <select class="form-control" id="stateNumber">
+          <% _.each(statenumbers, function(statenumber, val) { %>
+            <option value="<%= val %>"><%= statenumber %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <select class="form-control" id="district">
+          <option value="0">Select.</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="(နိုင်)" id="nrcType">
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="RegNo" id="nrcRegNumber">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="">Gender</label>
+        <select class="form-control" id="type">
+          <% _.each(gender, function(gender, val) { %>
+            <option value="<%= val %>"><%= gender %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="">Batch</label>
+        <select class="form-control" id="batch">
+          <% _.each(batch, function(batch, val) { %>
+            <option value="<%= val %>"><%= batch %></option>
+          <% }); %>
+        </select>
+      </div>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <label for="">Major</label>
+    <select class="form-control" id="major">
+      <% _.each(major, function(major, val) { %>
+        <option value="<%= val %>"><%= major %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Contact1</label>
+    <input type="text" class="form-control" placeholder="Contact Number" id="contact1">
+  </div>
+
+  <div class="form-group">
+    <label>Contact2</label>
+    <input type="text" class="form-control" placeholder="Contact Number" id="contact2">
+  </div>
+
+  <div class="form-group">
+    <label>Facebook profile</label>
+    <input type="text" class="form-control" placeholder="Facebook URL" id="fbprofile">
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg" id="add-button">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add
+  </button>
+</form>
+<script type="text/javascript">
+  function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profilePhoto').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#fileInput").change(function(){
+        if( $('#fileInput').val()!=""){
+            
+            $('#remove').show();
+            $('#profilePhoto').show('slow');
+      }
+        else{ $('#remove').hide();$('#profilePhoto').hide('slow');}
+        readURL(this);
+    });
+
+  
+    $('#remove').click(function(){
+          $('#imgInp').val('');
+          $(this).hide();
+          $('#blah').hide('slow');
+ $('#blah').attr('src','http://upload.wikimedia.org/wikipedia/commons/thumb/4/40/No_pub.svg/150px-No_pub.svg.png');
+});
+</script>

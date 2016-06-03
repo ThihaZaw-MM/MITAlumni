@@ -1,0 +1,169 @@
+<div class="row">
+	<div class="col-md-8 col-sm-12 col-xs-12">
+		<div class="panel panel-info student-detail">
+			<div class="panel-heading">
+				<h2>
+					<span class="glyphicon glyphicon-user"></span>
+					<%= studentName %>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+				  <div class="col-sm-6">
+				  	<!--<div id="content">
+						<label for="">Photo</label>
+						<span class="file-input btn btn-block btn-primary btn-file pull-left" id="uploadFile">
+						  <input id="fileInput" type="file" name="fileInput">
+						</span>
+					</div>-->
+					<!--<div id="photo">
+						<img height="150" src="<% if(photoUrl != null) { %>
+													photoUrl
+												<% } else { %>
+													/./images/default_pic.png
+												<% }  %>" id="profilePhoto"/>
+					</div>-->
+					<div id="gallery"></div>
+					<br>
+					<label class="btn btn-primary">
+		                Browse&hellip; <input id="fileInput" type="file" accept="image/*" style="display: none;"/>
+		            </label>
+					
+				  </div>
+				  <div class="col-sm-6">
+				  	<span class="glyphicon glyphicon-check"></span>
+				  	<label>NRC</label>
+				  	<%= statenumberLabel + "/" + districtLabel + nrcType + nrcRegNumber %>
+				  	<hr>
+				  	<span class="glyphicon glyphicon-check"></span>
+				  	<label>Address</label>
+				  	Hello!
+				  	<hr>
+				  	<a href="<%= fbprofile %>" target="_blank"><img src="/./images/facebook.png" width="30" height="30"></a>
+				  </div>
+				</div>
+			</div>
+			<div class="panel-footer clearfix">
+				<span class="text-muted"><%= moment(submittedAt).fromNow() %></span>
+				<div class="btn-group pull-right">
+					<button class="btn btn-default btn-sm" id="edit-student">
+						<span class="glyphicon glyphicon-edit text-info"></span>
+						Edit
+					</button>
+					<button class="btn btn-default btn-sm" id="delete-student">
+						<span class="glyphicon glyphicon-trash text-danger"></span>
+						Remove
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+
+	</div>
+
+	<div class="col-md-4 col-sm-12 col-xs-12 sidebar">		
+		<div class="btn-group btn-breadcrumb">
+	      <a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-tasks"></span></a>
+	      <a href="#" class="btn btn-danger">Batch</a>
+	      <a href="#" class="btn btn-default" data-toggle="dropdown"><%= batchLabel %> <span class="caret"></span></a>
+	      <ul class="dropdown-menu dropdown-menu-right">
+	        <% _.each(app.batch, function(label, type) { %>
+	          <li><a href="#" class="change-batch" data-value="<%= type %>"><%= label %></a></li>
+	        <% }) %>
+	      </ul>
+	    </div>
+
+		<div class="btn-group btn-breadcrumb">
+	      <a href="#" class="btn btn-warning">
+	        <span class="glyphicon glyphicon-asterisk"></span>
+	      </a>
+	      <a href="#" class="btn btn-warning">Major</a>
+	      <a href="#" class="btn btn-default" data-toggle="dropdown"><%= majorLabel %> <span class="caret"></span></a>
+	      <ul class="dropdown-menu dropdown-menu-right">
+	        <% _.each(app.major, function(label, priority) { %>
+	          <li><a href="#" class="change-major" data-value="<%= priority %>"><%= label %></a></li>
+	        <% }) %>
+	      </ul>
+	    </div>
+
+	    <hr>
+
+	    <div class="btn-group btn-breadcrumb">
+	      <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-phone-alt"></span></a>
+	      <a href="#" class="btn btn-success">Contact1</a>
+	      <a href="#" class="btn btn-default" data-toggle="dropdown" ><%= contact1 %></a>
+	    </div>
+
+	    <div class="btn-group btn-breadcrumb">
+	      <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-phone-alt"></span></a>
+	      <a href="#" class="btn btn-success">Contact2</a>
+	      <a href="#" class="btn btn-default" data-toggle="dropdown" ><%= contact2 %></a>
+	    </div>
+
+		<hr>
+
+		<div class="alert text-muted meta">
+			<p>
+				Submitted date: <b>
+					<%= moment(submittedAt).format("DD-MM-YYYY h-mm-ss a") %>
+				</b>
+			</p>
+			<p>
+				Last modified: <b>
+					<% if(typeof modifiedAt !== 'undefined') { %>
+						<%= moment(modifiedAt).format("DD-MM-YYYY h-mm-ss a") %>
+					<% } %>
+				</b>
+			</p>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var uploadFile = document.querySelector("#fileInput");
+uploadFile.addEventListener("change", function() {
+	var files = this.files;
+	previewImage(this.files[0]);
+}, false);
+function previewImage(file) {
+	var galleryId = "gallery";
+	var gallery = document.getElementById(galleryId);
+	var imageType = /image.*/;
+
+	if(!file.type.match(imageType)) {
+		throw "File Type must be an image";
+	}
+
+	var thumb = document.createElement("div");
+	thumb.classList.add("thumbnail");
+
+	var img = document.createElement("img");
+	img.file = file;
+	thumb.appendChild(img);
+	gallery.appendChild(thumb);
+
+	var reader = new FileReader();
+	reader.onload = (function(aImg) {
+		return function(e) { 
+			aImg.src = e.target.result;
+			//uploadFiles(file); 
+		};
+	})(img);
+	reader.readAsDataURL(file);
+}
+function uploadFiles(file) {
+	var url = "http://localhost:3000/api/students/photo";
+	var xhr = new XMLHttpRequest();
+	var fd = new FormData();
+	xhr.open("POST", url, true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+		}
+	};
+	fd.append("fileInput", file);
+	console.log(fd.get("fileInput"));
+	xhr.send(fd);
+}
+</script>

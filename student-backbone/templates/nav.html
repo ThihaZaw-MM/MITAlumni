@@ -1,0 +1,41 @@
+<div class="container-fluid">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle"
+			data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a href="#" class="navbar-brand">Student Address Book System</a>
+	</div>
+	<div class="navbar-collapse collapse">
+		<% if(auth) { %>
+			<ul class="nav navbar-nav">
+				<li class="active">
+					<a href="#/students" id="student-list">
+						All Students <span class="badge"><%= studentCount %></span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="#" id="new-student">
+						<span class="text-primary glyphicon glyphicon-plus"></span>
+						New Student
+					</a>
+				</li>
+
+				<!--<li>
+					<a href="#" id="district-list">
+						<span class="text-primary glyphicon glyphicon-plus"></span>
+						District List
+					</a>
+				</li>-->
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#/users" id="user-list">Users</a></li>
+				<li><a href="#/users" id="profile"><%= userName %></a></li>
+				<li><a href="#/users" id="logout">Logout</a></li>
+			</ul>
+		<% } %>
+	</div>
+</div>
