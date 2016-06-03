@@ -16,8 +16,22 @@ var studentDetailView = Backbone.View.extend({
 		//
 	},
 
+	api: function(path) {
+	   return app.host + path;
+	},
+
 	render: function() {
-		this.model.set("users", app.userList.toJSON());
+
+		var studentModel = this.model.toJSON();
+	    var divisionid = studentModel["divisionId"];
+
+	    $.ajax({
+	      url: this.api("/students/townships/" + divisionid),
+	      success: function(data) {
+	        app.townships = data[0]["townshiplist"];
+	      }
+	    });
+
 		this.$el.html(app.hookTemplate("student-detail", this.model.toJSON()));
 		return this;
 	},

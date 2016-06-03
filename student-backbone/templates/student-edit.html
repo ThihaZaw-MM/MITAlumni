@@ -3,9 +3,70 @@
 	<div class="form-group">
 		<label for="">Name *</label>
 		<input type="text" class="form-control"
-			placeholder="Name" id="studentName" value="<% studentName %>">
+			placeholder="Name" id="studentName" value="<%= studentName %>">
 	
 	</div>
+
+	<div class="form-group">
+	    <div class="row">
+	      <div class="col-sm-6">
+	        <label>Contact1</label>
+	        <input type="text" class="form-control" 
+	        	placeholder="Contact Number" id="contact1" value="<%= contact1 %>">
+	      </div>
+	      <div class="col-sm-6">
+	        <label>Contact2</label>
+	        <input type="text" class="form-control" 
+	        	placeholder="Contact Number" id="contact2" value="<%= contact2 %>">
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="form-group">
+	    <label>Address</label>
+	    <input type="text" class="form-control" 
+	    	placeholder="Address" id="address" value="<%= address %>">
+	  </div>
+
+	  <div class="form-group">
+	    <div class="row">
+	      <div class="col-sm-6">
+	          <label for="">Division</label>
+	          <select class="form-control" id="division">
+	            <% _.each(app.divisions, function(division, val) { %>
+	              <option value="<%= val %>"
+					<%= val == divisionId ? 'selected' : '' %> ><%= division %>
+				</option>
+	            <% }); %>
+	          </select>
+	      </div>
+	      <div class="col-sm-6">
+	        <label for="">Township</label>
+	        <select class="form-control" id="township">
+	          <% _.each(app.townships, function(township, val) { %>
+	              <option value="<%= val %>"
+					<%= val == townshipId ? 'selected' : '' %> ><%= township %>
+				</option>
+				<% }); %>
+	        </select>
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="form-group">
+	    <div class="row">
+	      <div class="col-sm-6">
+	          <label>Email</label>
+	          <input type="email" class="form-control" 
+	          	placeholder="Email" id="email" value="<%= email %>">    
+	      </div>
+	      <div class="col-sm-6">
+	        <label>Facebook profile</label>
+	        <input type="text" class="form-control" 
+	        	placeholder="Facebook URL" id="fbprofile" value="<%= fbprofile %>">    
+	      </div>
+	    </div>
+  	</div>
 
 	<button type="submit" class="btn btn-primary btn-lg" id="update-student">
 		<span class="glyphicon glyphicon-edit"></span>

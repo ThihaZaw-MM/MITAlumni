@@ -3,7 +3,8 @@ var studentNewView = Backbone.View.extend ({
 
 	events: {
 		"submit #new-student-form": "create",
-		"change #stateNumber": "loadDistricts"
+		"change #stateNumber": "loadDistricts",
+		"change #division": "loadTownships"
 	},
 
 	api: function(path) {
@@ -20,11 +21,29 @@ var studentNewView = Backbone.View.extend ({
 			districts: app.districts,
 			gender: app.gender,
 			batch: app.batch,
-			major: app.major
+			major: app.major,
+			divisions: app.divisions,
 		};
 
 		this.$el.html( app.hookTemplate("student-new", data) );
 		return this;
+	},
+
+	loadTownships: function() {
+		var that = this;
+		var divisionId = $("#division").val();
+		$.ajax({
+			url: this.api("/students/townships/" + divisionId),
+			success: function(data) {
+				//console.log(data);
+				var options = "";
+				app.townships = data[0]["townshiplist"];
+				for (var i = 0; i < app.townships.length; i++) {
+		        	options += "<option value=" + i + ">" + app.townships[i] + "</option>";
+		        };
+		        $("#township").html(options);
+			}
+		});
 	},
 
 	loadDistricts: function() {
@@ -35,7 +54,6 @@ var studentNewView = Backbone.View.extend ({
 	      success: function(data) {
 	        var options = "";
 	        for (var i = data.length - 1; i >= 0; i--) {
-	        	data[i]
 	        	options += "<option value=" + data[i]["districtId"] + ">" + data[i]["districtName"] + "</option>";
 	        };
 	        $("#district").html(options);
@@ -75,6 +93,10 @@ var studentNewView = Backbone.View.extend ({
 		var contact1 = $("#contact1").val();
 		var contact2 = $("#contact2").val();
 		var fbprofile = $("#fbprofile").val();
+		var emailInput = $("#email").val();
+		var addressInput = $("#address").val();
+		var divisionId = $("#division").val();
+		var townshipValue = $("#township").val();
 
 		var model = new app.studentModel({
 			"studentName": studentName,
@@ -91,7 +113,13 @@ var studentNewView = Backbone.View.extend ({
 			"majorLabel": app.major[major],
 			"contact1": contact1,
 			"contact2": contact2,
-			"fbprofile": fbprofile
+			"fbprofile": fbprofile,
+			"email" : emailInput,
+			"address" : addressInput, 
+			"divisionid": divisionId,
+			"divisionName": app.divisions[divisionId],
+			"townshipid": townshipValue,
+			"townshipName": app.townships[townshipValue]
 		});
 
 		model.save(null, {
@@ -115,7 +143,7 @@ function getLabel(adistrict){
 	for(var i=0; i< app.districts.length; i++){
 		
 		if(Number(app.districts[i]["districtId"]) === Number(adistrict)){
-			console.log(app.districts[i]);
+			//console.log(app.districts[i]);
 			return app.districts[i]["districtName"];
 		}
 	}

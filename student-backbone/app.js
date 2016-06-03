@@ -1,5 +1,5 @@
 var app = {
-	host: "http://thihazaw.com:3000/api",
+	host: "http://localhost:3000/api",
 
 	api: function(path) {
 		return app.host + path;
@@ -77,6 +77,8 @@ var app = {
 	batch: [],
 	major: [],
 	gender: [],
+	divisions: [],
+	townships: [],
 	userRole: [],
 
 	  loadStateNumbers: function() {
@@ -90,6 +92,16 @@ var app = {
 	    });
 	  },
 
+	  loadTownships: function() {
+	  	var that = this;
+	    $.ajax({
+	      url: this.api("/students/townships/1"),
+	      success: function(data) {
+	        that.townships = data[0]["townshiplist"];
+	      }
+	    });
+	  },
+
 	  loadDistricts: function() {
 	    var that = this;
 	    $.ajax({
@@ -97,6 +109,16 @@ var app = {
 	      success: function(data) {
 	        that.districts = data;
 	        //console.log(data);
+	      }
+	    });
+	  },
+
+	  loadDivisions: function() {
+	  	var that = this;
+	    $.ajax({
+	      url: this.api("/students/divisions"),
+	      success: function(data) {
+	        that.divisions = data;
 	      }
 	    });
 	  },

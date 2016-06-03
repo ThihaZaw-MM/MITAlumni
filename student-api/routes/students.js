@@ -9,6 +9,7 @@ var config = require("../config");
 
 var db = mongojs('AddressBook', ['students']);
 var distDb = mongojs('AddressBook', ['districts']);
+var townshipDb = mongojs('AddressBook', ['townships']);
 
 //Get stateNumbers
 router.get("/statenumbers", auth.ensureAuth(), function(req, res) {
@@ -24,14 +25,29 @@ router.get("/districts", auth.ensureAuth(), function(req, res) {
 		});
 });
 
+//Get divisions
+router.get("/divisions", auth.ensureAuth(), function(req, res) {
+	res.status(200).json(config.divisions);
+});
+
+//Get townships
+router.get("/townships/:divisionid", auth.ensureAuth(), function(req, res) {
+	var divId = Number(req.params.divisionid);
+
+	townshipDb.townships.find({divisionId: divId}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+});
+
+
 router.get("/districts/:statenumber", function(req, res) {
-  //var snumber = req.params.statenumber;
   var snumber = Number(req.params.statenumber);
 
   distDb.districts.find({stateNumber: snumber}, function(err, data) {
 		if(data) res.status(200).json(data);
 		else res.sendStatus(400);
-		});
+	});
 });
 
 // Get gender
@@ -100,11 +116,17 @@ router.post("/", auth.ensureRole(1), function(req, res) {
 		batch: req.body.batch,
 		batchLabel: config.batch[req.body.batch],
 		major: req.body.major,
-		majorLabel:config.major[req.body.major],
+		majorLabel: config.major[req.body.major],
 		contact1: req.body.contact1,
 		contact2: req.body.contact2,
 		fbprofile: req.body.fbprofile,
 		photoUrl: null,
+		email: req.body.email,
+		address: req.body.address,
+		divisionId: req.body.divisionid,
+		divisionName: config.divisions[req.body.divisionid],
+		townshipId: req.body.townshipid,
+		townshipName: req.body.townshipName,
 		submittedAt: new Date(),
 		submittedBy: mongojs.ObjectId(req.user._id),
 		submittedByLabel: req.user.fullName
@@ -130,11 +152,18 @@ router.put("/:id", auth.ensureRole(1), function(req, res) {
 		return false;
 	}
 
-	console.log(req.body.detail);
-
 	var newData = {
 		studentName: req.body.studentName,
-		detail: req.body.detail,
+		contact1: req.body.contact1,
+		contact2: req.body.contact2,
+		fbprofile: req.body.fbprofile,
+		photoUrl: null,
+		email: req.body.email,
+		address: req.body.address,
+		divisionId: req.body.divisionid,
+		divisionName: config.divisions[req.body.divisionid],
+		townshipId: req.body.townshipid,
+		townshipName: req.body.townshipName,
 		modifiedAt: new Date()
 	};
 

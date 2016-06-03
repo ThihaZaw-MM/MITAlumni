@@ -3,11 +3,16 @@ var studentEditView = Backbone.View.extend({
 
   events: {
     "submit #student-edit-form": "updateStudent",
-    "click #close-edit": "showStudentDetail"
+    "click #close-edit": "showStudentDetail",
+    "change #division": "loadTownships"
   },
 
   initialize: function() {
     //
+  },
+
+  api: function(path) {
+    return app.host + path;
   },
 
   render: function() {
@@ -15,25 +20,58 @@ var studentEditView = Backbone.View.extend({
     return this;
   },
 
-  updateIssue: function() {
+  loadTownships: function() {
+    var that = this;
+    var divisionId = $("#division").val();
+    $.ajax({
+      url: this.api("/students/townships/" + divisionId),
+      success: function(data) {
+        //console.log(data);
+        var options = "";
+        app.townships = data[0]["townshiplist"];
+        for (var i = 0; i < app.townships.length; i++) {
+              options += "<option value=" + i + ">" + app.townships[i] + "</option>";
+            };
+            $("#township").html(options);
+      }
+    });
+  },
+
+  updateStudent: function() {
     var studentNameInput = $("#studentName");
-    if(!summaryInput.val()) {
-      summaryInput.parent().addClass('has-error');
-      summaryInput.focus();
+    if(!studentNameInput.val()) {
+      studentNameInput.parent().addClass('has-error');
+      studentNameInput.focus();
       return false;
     }
 
-    var summary = summaryInput.val();
-    var detail = $("#detail").html();
+    var name = studentNameInput.val();
+    var contact1 = $("#contact1").val();
+    var contact2 = $("#contact2").val();
+    var fbprofile = $("#fbprofile").val();
+    var emailInput = $("#email").val();
+    var addressInput = $("#address").val();
+    var divisionId = $("#division").val();
+    var townshipValue = $("#township").val();
+
 
     var that = this;
     this.model.save({
-      "detail" : detail,
-      "summary" : summary
+      "studentName" : name,
+      "contact1": contact1,
+      "contact2": contact2,
+      "fbprofile": fbprofile,
+      "email" : emailInput,
+      "address" : addressInput, 
+      "divisionid": divisionId,
+      "divisionName": app.divisions[divisionId],
+      "townshipid": townshipValue,
+      "townshipName": app.townships[townshipValue]
     }, {
       wait: true,
       success: function(res) {
-        that.showIssueDetail();
+        that.showStudentDetail();
+        location.reload(); 
       }
     });
 

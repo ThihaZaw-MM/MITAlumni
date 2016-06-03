@@ -35,6 +35,8 @@ var loginView = Backbone.View.extend({
 		            app.loadGender();
 		            app.loadBatch();
 		            app.loadMajor();
+		            app.loadTownships();
+          			app.loadDivisions();
 		            app.loadUserRoles();
 				}
 			}, function() {
