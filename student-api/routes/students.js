@@ -91,7 +91,7 @@ router.get("/bymajor/:major", function(req, res) {
 
 router.get("/batchmajor/:batch/:major", function(req, res) {
 	var batchId = req.params.batch;
-	var major = req.params.major
+	var major = Number(req.params.major);
 	db.students.find({batch: batchId, major: major}, function(err, data) {
 		if(data) res.status(200).json(data);
 		else res.sendStatus(400);
