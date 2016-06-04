@@ -57,7 +57,7 @@ router.get("/gender", auth.ensureAuth(), function(req, res) {
 
 
 // Get batch
-router.get("/batch", auth.ensureAuth(), function(req, res) {
+router.get("/batch", function(req, res) {
   res.status(200).json(config.batch);
 });
 
@@ -72,6 +72,32 @@ router.get("/",  function(req, res) {
 		res.status(200).json(data);
 	});
 });
+
+router.get("/bybatch/:batch", function(req, res) {
+	var batchId = req.params.batch;
+	db.students.find({batch: batchId}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+});
+
+router.get("/bymajor/:major", function(req, res) {
+	var major = req.params.major;
+	db.students.find({major: major}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+});
+
+router.get("/batchmajor/:batch/:major", function(req, res) {
+	var batchId = req.params.batch;
+	var major = req.params.major
+	db.students.find({batch: batchId, major: major}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+});
+
 
 //Get one student
 router.get("/:id", auth.ensureAuth(), function(req, res) {
