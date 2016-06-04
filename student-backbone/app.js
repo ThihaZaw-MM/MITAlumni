@@ -81,6 +81,10 @@ var app = {
 	townships: [],
 	userRole: [],
 
+	  loadDistrictList: function() {
+	  	app.districtList.fetch();
+	  },
+
 	  loadStateNumbers: function() {
 	    var that = this;
 	    $.ajax({

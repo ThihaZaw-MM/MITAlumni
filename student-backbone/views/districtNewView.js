@@ -19,50 +19,38 @@ var districtNewView = Backbone.View.extend({
   },
 
   create: function() {
-    var stateNumber = $("#stateNumber").val();
-    var districtId = 0;
-    var districtName = $("#districtName").val();
-
+    
     var that = this;
     
       $.ajax({
         url: this.api("/districts/maxdistrictid/"),
         success: function(data) {
-          that.districtId = Number(data[0]["districtId"]) + 1; 
-          console.log(data[0]["districtId"])
+          
+          var stateNumber = Number($("#stateNumber").val());
+          var districtId = Number(data["districtId"]) + 1; 
+          var districtName = $("#districtName").val();
+          
+          console.log(stateNumber);
+          console.log(districtId);
+          console.log(districtName);
+
+          var model = new app.districtModel({
+            "stateNumber" : stateNumber,
+            "districtId" : districtId,
+            "districtName" : districtName
+          });
+
+          console.log(model);
+
+          model.save(null, {
+            wait: true,
+            success: function(res) {
+              app.districtList.add(res);
+              app.loadDistricts();
+            }
+          });
         }
       });
-
-    var err = 0;
-    if(!stateNumber) {
-      err++;
-      $("#stateNumber").parent().addClass('has-error');
-    }
-
-    if(!districtId) {
-      err++;
-      $("#districtId").parent().addClass('has-error');
-    }
-
-    if(!districtName) {
-      err++;
-      $("#districtName").parent().addClass('has-error');
-    }
-
-    if(err) return false;
-
-    var model = new app.districtModel({
-      "stateNumber" : stateNumber,
-      "districtId" : districtId,
-      "districtName" : districtName
-    });
-
-    model.save(null, {
-      wait: true,
-      success: function(res) {
-        app.districtList.add(res);
-      }
-    });
 
     return false;
   },

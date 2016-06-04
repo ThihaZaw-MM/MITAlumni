@@ -19,7 +19,6 @@ router.post("/", auth.ensureAuth(), function(req, res) {
 
 //Get all districts
 router.get("/",  function(req, res){
-	console.log("Got it");
 	db.districts.find({}, function(err, data) {
 		res.status(200).json(data);
 	});
@@ -42,6 +41,14 @@ function findMax(data){
 	};
 	return max;
 }
+
+router.post("/", auth.ensureAuth(), function(req, res) {
+	//Validation
+	db.districts.insert(req.body, function(err, data) {
+		if(err) res.status(500).json(err);
+		else res.status(200).json(data);
+	});
+});
 
 //Get one district
 router.get("/:id", auth.ensureAuth(), function(req, res) {

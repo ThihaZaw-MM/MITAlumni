@@ -4,6 +4,16 @@ var districtListView = Backbone.View.extend({
   initialize: function() {
     //
   },
+  
+  events: {
+    "click #new-district": "newDistrict"
+  },
+
+  newDistrict: function() {
+    console.log("Hello from newDistrict!!");
+    var view = new districtNewView();
+    $("#main").html( view.render().el );
+  },
 
   render: function() {
     this.$el.html( app.hookTemplate("district-list") );
@@ -24,7 +34,8 @@ var districtView = Backbone.View.extend({
 
   events: {
     "click .edit-district": "editDistrict",
-    "click .delete-delete": "deleteDistrict"
+    "click .delete-delete": "deleteDistrict",
+    "click #new-district": "newDistrict"
   },
 
   initialize: function() {

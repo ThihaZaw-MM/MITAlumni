@@ -18,6 +18,7 @@ var appView = Backbone.View.extend({
           var nav = new navView();
           $("#nav").html( nav.render().el );
 
+          app.loadDistrictList();
           app.userList.fetch();
           app.loadStateNumbers();
           app.loadDistricts();
