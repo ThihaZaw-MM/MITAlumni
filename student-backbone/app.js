@@ -1,5 +1,5 @@
 var app = {
-	host: "http://thihazaw:3000/api",
+	host: "http://thihazaw.com:3000/api",
 
 	api: function(path) {
 		return app.host + path;

@@ -94,7 +94,7 @@ var studentDetailView = Backbone.View.extend({
 		};
 
 		this.model.save({
-			major: major,
+			major: Number(major),
 			majorLabel: app.major[major]
 		}, {
 			patch: true,

@@ -109,7 +109,7 @@ var studentNewView = Backbone.View.extend ({
 			"gender": app.gender[gender],
 			"batch": batch,
 			"batchLabel": app.batch[batch],
-			"major": major,
+			"major": Number(major),
 			"majorLabel": app.major[major],
 			"contact1": contact1,
 			"contact2": contact2,
