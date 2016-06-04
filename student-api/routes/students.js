@@ -82,7 +82,7 @@ router.get("/bybatch/:batch", function(req, res) {
 });
 
 router.get("/bymajor/:major", function(req, res) {
-	var major = req.params.major;
+	var major = Number(req.params.major);
 	db.students.find({major: major}, function(err, data) {
 		if(data) res.status(200).json(data);
 		else res.sendStatus(400);
