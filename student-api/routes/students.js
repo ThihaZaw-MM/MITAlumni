@@ -98,6 +98,15 @@ router.get("/batchmajor/:batch/:major", function(req, res) {
 	});
 });
 
+router.get("/batchmajortownship/:batch/:major/:township", function(req, res) {
+	var batchId = req.params.batch;
+	var major = Number(req.params.major);
+	var township = req.params.township;
+	db.students.find({batch: batchId, major: major, townshipId: township}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+}); 
 
 //Get one student
 router.get("/:id", auth.ensureAuth(), function(req, res) {

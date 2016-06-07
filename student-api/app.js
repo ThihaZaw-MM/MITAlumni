@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(validator());
 
 app.use(function(req, res, next) {
-  res.set("Access-Control-Allow-Origin", "http://thihazaw.com:8080");
+  res.set("Access-Control-Allow-Origin", "http://thihszaw.com:8080");
   res.set("Access-Control-Allow-Credentials", "true");
   res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   res.set('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
