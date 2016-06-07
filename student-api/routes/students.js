@@ -106,6 +106,24 @@ router.get("/batchmajortownship/:batch/:major/:township", function(req, res) {
 		if(data) res.status(200).json(data);
 		else res.sendStatus(400);
 	});
+});
+
+router.get("/batchtownship/:batch/:township", function(req, res) {
+	var batchId = req.params.batch;	
+	var township = req.params.township;
+	db.students.find({batch: batchId, townshipId: township}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+}); 
+
+router.get("/majortownship/:major/:township", function(req, res) {
+	var major = Number(req.params.major);
+	var township = req.params.township;
+	db.students.find({major: major, townshipId: township}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
 }); 
 
 //Get one student
