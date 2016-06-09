@@ -2,10 +2,12 @@ var mongojs = require("mongojs");
 var express = require("express");
 var validator = require('express-validator');
 var multer = require('multer');
+var path = require("path");
 var router = express.Router();
 
 var auth = require("../auth");
 var config = require("../config");
+
 
 var db = mongojs('AddressBook', ['students']);
 var distDb = mongojs('AddressBook', ['districts']);
@@ -375,29 +377,20 @@ router.patch("/stateNumber/:id", auth.ensureAssignee(), function(req, res) {
 	);
 });
 
-router.patch("/photo/:id", function(req, res) {
-	var iid = req.params.id;
-
-	var newData = {
-		photoUrl: req.body.photoUrl,
-		modifiedAt: new Date()
-	};
-
-	db.students.update(
-		{ _id: mongojs.ObjectId(iid) },
-		{ $set: newData },
-		{ multi: false },
-		function(err, data) {
-			if(err) res.status(500).json(err);
-			else res.status(200).json(data);
-		}
-	);
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, __dirname + "/uploads/");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
 });
+var upload = multer({ storage : storage}).single('userPhoto');
 
-router.post("/photo", function(req, res) {
+router.post("/photo/:id", function(req, res) {
 
-	/*var responseServerPath = "uploads/" + req.files["fileInput"].name;
- 	var serverPath = "uploads/" + req.files["fileInput"].name;
+	/*var responseServerPath = 'images/' + req.files.userPhoto.name;
+	var serverPath = '/uploads/' + req.files.userPhoto.name;
  	console.log(req.files.userPhoto.path);
 
  	require('fs').rename(
@@ -417,7 +410,52 @@ router.post("/photo", function(req, res) {
 			});
 		}
 	);*/
+	//console.log(req.body);
+	var iid = req.params.id;
+	//console.log(iid);
+	req.checkParams("id", "Invalid Student ID").isMongoId();
+
+	//req.checkBody("type", "Invalid major").isInt();
+
+	var errors = req.validationErrors();
+	if(errors) {
+		res.status(400).json(errors);
+		return false;
+	}
+
+	upload(req,res,function(err) {
+
+        if(err) {
+        	console.log(err);
+            return res.end("Error uploading file.");
+        }
+        //res.end("File is uploaded");
+        //console.log(req.headers.referer);
+        var photoUrl = "http://" + req.headers.host + "/api/students/photo" + req.file.filename;
+        var newData = {
+			photoUrl: "http://localhost:3000/api/students/photo/"+req.file.filename,
+			majorLabel: config.major[req.body.major],
+			modifiedAt: new Date()
+		};
+
+		db.students.update(
+			{ _id: mongojs.ObjectId(iid) },
+			{ $set: newData },
+			{ multi: false },
+			function(err, data) {
+				if(err) res.status(500).json(err);
+				else res.status(200).json(data);
+			}
+		);
+    });
 });
 
+router.get("/photo/:name", function(req, res) {
+	var name = req.params.name;
+	var filePath = __dirname + "/uploads/" + name;
+	res.sendFile(filePath);
+	//console.log(filePath);
+	//res.send();
+});
 
 module.exports = router;

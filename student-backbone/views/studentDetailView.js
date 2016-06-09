@@ -9,7 +9,7 @@ var studentDetailView = Backbone.View.extend({
 		"click .change-batch": "changeBatch",
 		"click .change-assign": "changeState",
 		"click .change-status": "changeDistricts",
-		"fileselect :file" : "uploadFile",
+		"fileselect :file" : "uploadFile"
 	},
 
 	initialize: function() {
@@ -22,16 +22,20 @@ var studentDetailView = Backbone.View.extend({
 
 	render: function() {
 
+		this.model.set("rootUrl", this.model.urlRoot);
+
 		var studentModel = this.model.toJSON();
 	    var divisionid = studentModel["divisionId"];
 
 	    $.ajax({
 	      url: this.api("/students/townships/" + divisionid),
 	      success: function(data) {
-	        app.townships = data[0]["townshiplist"];
+	      	if(data!=null){
+	      		app.townships = data[0]["townshiplist"];	
+	      	}
 	      }
 	    });
-
+	    //console.log(this.model.toJSON());
 		this.$el.html(app.hookTemplate("student-detail", this.model.toJSON()));
 		return this;
 	},
@@ -58,12 +62,12 @@ var studentDetailView = Backbone.View.extend({
 	},
 
 	uploadFile: function(e) {
-		console.log(e.target.result);
+		//console.log(e.target.result);
 
-		var urlRoot = this.model.urlRoot;
-		var id = this.model.id;
+		//var urlRoot = this.model.urlRoot;
+		//var id = this.model.id;
 		
-		var that = this;
+		/*var that = this;
 
 		this.model.url = function() {
 			return urlRoot + "/photo/" + id;
@@ -78,7 +82,7 @@ var studentDetailView = Backbone.View.extend({
 				var detail = new studentDetailView({model: that.model});
 				$("#main").html( detail.render().el );
 			}
-		});
+		});*/
 	},
 
 	changeMajor: function(e) {

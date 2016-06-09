@@ -23,11 +23,34 @@
 													/./images/default_pic.png
 												<% }  %>" id="profilePhoto"/>
 					</div>-->
-					<div id="gallery"></div>
-					<br>
-					<label class="btn btn-primary">
-		                Browse&hellip; <input id="fileInput" type="file" accept="image/*" style="display: none;"/>
-		            </label>
+					<form id="uploadForm" enctype="multipart/form-data" action="<%= rootUrl %>/photo/<%= _id %>" method="post">
+						<div id="gallery">
+							<div class="thumbnail">
+								<% if(photoUrl != null) { %>
+						          <img height="150" src=<%= photoUrl%> id="profilePhoto"/>
+						        <% } else { %>
+						          <img height="150" src="/./images/default_pic.png" alt="Student Photo" id="profilePhoto"/>
+						        <% } %>
+							</div>
+						</div>
+						<label class="btn btn-primary">
+			                Browse&hellip; <input id="fileInput" name="userPhoto" type="file" accept="image/*" style="display: none;"/>
+			            </label>      
+						<input type="submit" value="Upload Image" class="btn btn-primary" id="uploadSubmit" name="submit">
+						<span id="status" class="label label-success"></span>
+						<img src="/./images/loader.gif" width="30" height="30" id="loading">
+					</form>
+					
+					<!--<form id="addBook" action="..." enctype="multipart/form-data">
+					  <div>
+					  	<div id="gallery"></div>
+						<br>
+						<label class="btn btn-primary">
+			                Browse&hellip; <input id="fileInput" type="file" accept="image/*" style="display: none;"/>
+			            </label>      
+					  </div>
+					</form>-->
+					
 					
 				  </div>
 				  <div class="col-sm-6">
@@ -129,49 +152,67 @@
 </div>
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+	$("#uploadForm").submit(function() {
+		
+		$("#loading").css("display","block");
+
+		$(this).ajaxSubmit({
+
+			//$("#status").text("Uploading...!");
+			error: function(xhr) {
+        		status('Error: ' + xhr.status);
+            },
+            success: function(response) {
+        		//location.reload();
+        		//return false;
+        		$("#status").text("Upload success!");
+                console.log(response.photoUrl);
+                $("#loading").hide("fast");
+                location.reload(); 
+            }
+		});
+		//Very important line, it disable the page refresh.
+    	return false;
+	});
+
+	$('#loading').css("display","none");
+	$("#uploadSubmit").hide("fast");
+});
+
 var uploadFile = document.querySelector("#fileInput");
 uploadFile.addEventListener("change", function() {
 	var files = this.files;
-	previewImage(this.files[0]);
+	previewImage(this.files);
+	$("#uploadSubmit").show("fast");
 }, false);
-function previewImage(file) {
-	var galleryId = "gallery";
-	var gallery = document.getElementById(galleryId);
+function previewImage(files) {
+	//var galleryId = "gallery";
+	var profilePhoto = "profilePhoto";
+	var img  = document.getElementById(profilePhoto);
+	//var gallery = document.getElementById(galleryId);
 	var imageType = /image.*/;
+	var file = files[0];
 
 	if(!file.type.match(imageType)) {
 		throw "File Type must be an image";
 	}
 
-	var thumb = document.createElement("div");
-	thumb.classList.add("thumbnail");
+	//var thumb = document.createElement("div");
+	//thumb.classList.add("thumbnail");
 
-	var img = document.createElement("img");
+	//var img = document.createElement("img");
 	img.file = file;
-	thumb.appendChild(img);
-	gallery.appendChild(thumb);
+	//thumb.appendChild(img);
+	//gallery.appendChild(thumb);
 
 	var reader = new FileReader();
 	reader.onload = (function(aImg) {
 		return function(e) { 
 			aImg.src = e.target.result;
-			//uploadFiles(file); 
 		};
 	})(img);
 	reader.readAsDataURL(file);
-}
-function uploadFiles(file) {
-	var url = "http://localhost:3000/api/students/photo";
-	var xhr = new XMLHttpRequest();
-	var fd = new FormData();
-	xhr.open("POST", url, true);
-	xhr.onreadystatechange = function() {
-		if(xhr.readyState == 4 && xhr.status == 200) {
-			console.log(xhr.responseText);
-		}
-	};
-	fd.append("fileInput", file);
-	console.log(fd.get("fileInput"));
-	xhr.send(fd);
 }
 </script>
