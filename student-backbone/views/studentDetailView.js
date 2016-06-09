@@ -35,7 +35,7 @@ var studentDetailView = Backbone.View.extend({
 	      	}
 	      }
 	    });
-	    //console.log(this.model.toJSON());
+	    console.log(this.model.toJSON());
 		this.$el.html(app.hookTemplate("student-detail", this.model.toJSON()));
 		return this;
 	},
