@@ -431,7 +431,7 @@ router.post("/photo/:id", function(req, res) {
         }
         //res.end("File is uploaded");
         //console.log(req.headers.referer);
-        var photoUrl = "http://" + req.headers.host + "/api/students/photo" + req.file.filename;
+        var photoUrl = "http://" + req.headers.host + "/api/students/photo/" + req.file.filename;
         var newData = {
 			photoUrl: photoUrl,
 			majorLabel: config.major[req.body.major],
