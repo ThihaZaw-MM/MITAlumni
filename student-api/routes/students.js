@@ -433,7 +433,7 @@ router.post("/photo/:id", function(req, res) {
         //console.log(req.headers.referer);
         var photoUrl = "http://" + req.headers.host + "/api/students/photo" + req.file.filename;
         var newData = {
-			photoUrl: "http://localhost:3000/api/students/photo/"+req.file.filename,
+			photoUrl: photoUrl,
 			majorLabel: config.major[req.body.major],
 			modifiedAt: new Date()
 		};
