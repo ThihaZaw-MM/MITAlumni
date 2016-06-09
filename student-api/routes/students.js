@@ -434,7 +434,6 @@ router.post("/photo/:id", function(req, res) {
         var photoUrl = "http://" + req.headers.host + "/api/students/photo/" + req.file.filename;
         var newData = {
 			photoUrl: photoUrl,
-			majorLabel: config.major[req.body.major],
 			modifiedAt: new Date()
 		};
 
