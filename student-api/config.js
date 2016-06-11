@@ -95,7 +95,7 @@ exports.major = [
 	"Civil",
 	"Archi",
 	"Mechanical",
-	"Mechacronic",
+	"Mechatronic",
 	"EC",
 	"EP",
 	"IT",
