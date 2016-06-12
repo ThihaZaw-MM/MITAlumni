@@ -71,7 +71,7 @@ var studentEditView = Backbone.View.extend({
       wait: true,
       success: function(res) {
         that.showStudentDetail();
-        location.reload(); 
+        location.reload(); // Need to think!!
       }
     });
 
