@@ -1,5 +1,10 @@
 <td><%= index %></td>
 <td>
+	<% if(photoUrl != null) { %>
+      <img height="40" src=<%= photoUrl%> id="profilePhoto"/>
+    <% } else { %>
+      <img height="50" src="/./images/default_pic.png" alt="Student Photo" id="profilePhoto"/>
+    <% } %>
 	<a href="#" data-id="<%= _id %>" class="student-name">
 		<%= studentName %>
 	</a>
@@ -12,6 +17,9 @@
 </td>
 <td data-order="<%= major  %>">
 	<%= majorLabel  %>
+</td>
+<td data-order="<%= address %>">
+	<%= address + "," + townshipName + "," + divisionName %>
 </td>
 <td>
 	<%= contact1 %>

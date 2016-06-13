@@ -9,8 +9,13 @@
     <div class="row">
       <div class="col-sm-3">
         <select class="form-control" id="stateNumber">
-          <% _.each(statenumbers, function(statenumber, val) { %>
-            <option value="<%= val %>"><%= statenumber %></option>
+          <% _.each(statenumbers, function(item, val) { %>
+            <% if(statenumber != val) { %>
+              <option value="<%= val %>"><%= item %></option>
+            <% } else { %>
+              <option selected value="<%= val %>"><%= item %></option>
+            <% } %>
+            
           <% }); %>
         </select>
       </div>
@@ -20,7 +25,7 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <input type="text" class="form-control" placeholder="(နိုင်)" id="nrcType">
+        <input type="text" class="form-control" value="(နိုင်)" id="nrcType">
       </div>
       <div class="col-sm-3">
         <input type="text" class="form-control" placeholder="RegNo" id="nrcRegNumber">

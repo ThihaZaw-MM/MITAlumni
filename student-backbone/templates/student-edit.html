@@ -8,6 +8,35 @@
 	</div>
 
 	<div class="form-group">
+	    <label for="">NRC *</label>
+	    <div class="row">
+	      <div class="col-sm-3">
+	        <select class="form-control" id="stateNumber">
+	          <% _.each(app.statenumbers, function(item, val) { %>
+	          	<% if(statenumber != val) { %>
+		          <option value="<%= val %>"><%= item %></option>
+		        <% } else { %>
+		          <option selected value="<%= val %>"><%= item %></option>
+		        <% } %>
+	            
+	          <% }); %>
+	        </select>
+	      </div>
+	      <div class="col-sm-3">
+	        <select class="form-control" id="district">
+	          <option value="<%= district %>">Select.</option>
+	        </select>
+	      </div>
+	      <div class="col-sm-3">
+	        <input type="text" class="form-control" value="<%= nrcType %>" id="nrcType">
+	      </div>
+	      <div class="col-sm-3">
+	        <input type="text" class="form-control" placeholder="RegNo" id="nrcRegNumber" value="<%= nrcRegNumber %>">
+	      </div>
+	    </div>
+	</div>
+
+	<div class="form-group">
 	    <div class="row">
 	      <div class="col-sm-6">
 	        <label>Contact1</label>
@@ -74,3 +103,23 @@
 	</button>
 	<button class="btn btn-link" id="close-edit">Cancel</button>
 </form>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	var stateNumber = $("#stateNumber").val();
+	var districtId = $("#district").val();
+      $.ajax({
+        url: app.host + "/students/districts/" + stateNumber,
+        success: function(data) {
+          var options = "";
+          for (var i = data.length - 1; i >= 0; i--) {
+          	if(data[i]["districtId"] == districtId)
+            	options += "<option selected value=" + data[i]["districtId"] + ">" + data[i]["districtName"] + "</option>";
+        	else
+        		options += "<option value=" + data[i]["districtId"] + ">" + data[i]["districtName"] + "</option>";
+          };
+          $("#district").html(options);
+        }
+      });
+});
+</script>

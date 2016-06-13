@@ -209,10 +209,15 @@ router.put("/:id", auth.ensureRole(1), function(req, res) {
 
 	var newData = {
 		studentName: req.body.studentName,
+		statenumber: req.body.statenumber,
+		statenumberLabel: config.statenumber[req.body.statenumber],
+		district: req.body.district,
+		districtLabel: req.body.districtLabel,
+		nrcType: req.body.nrcType,
+		nrcRegNumber: req.body.nrcRegNumber,
 		contact1: req.body.contact1,
 		contact2: req.body.contact2,
 		fbprofile: req.body.fbprofile,
-		photoUrl: null,
 		email: req.body.email,
 		address: req.body.address,
 		divisionId: req.body.divisionid,
