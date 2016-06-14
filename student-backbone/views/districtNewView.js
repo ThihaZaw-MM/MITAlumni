@@ -53,6 +53,7 @@ var districtNewView = Backbone.View.extend({
             success: function(res) {
               app.districtList.add(res);
               app.loadDistricts();
+              location.reload(); 
             },
             error: function(res) {
               console.log(res);
