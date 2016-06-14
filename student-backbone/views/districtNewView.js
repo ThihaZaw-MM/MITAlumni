@@ -25,7 +25,7 @@ var districtNewView = Backbone.View.extend({
     console.log(list);
     for(i=0; i < list.length; i++){
       var name = list[i].districtName;
-      console.log(name);
+      //console.log(name);
       if(name == $("#districtName").val()){
           alert("District already exit!");
           return false;
@@ -53,6 +53,10 @@ var districtNewView = Backbone.View.extend({
             success: function(res) {
               app.districtList.add(res);
               app.loadDistricts();
+            },
+            error: function(res) {
+              console.log(res);
+              alert("District already exit!");
             }
           });
         }

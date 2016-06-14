@@ -11,10 +11,27 @@ var db = mongojs('AddressBook', ['districts']);
 
 router.post("/", auth.ensureAuth(), function(req, res) {
 	
-	db.districts.insert(req.body, function(err, data) {
+	//Validation
+	var did = Number(req.body.districtId);
+	//console.log(did);
+
+	db.districts.find({districtId: did}, function(err, data){
+		if(data.length == 0) {
+			db.districts.insert(req.body, function(err, data) {
+				if(err) res.status(500).json(err);
+				else res.status(200).json(data);
+			});
+		}
+		else{
+			//console.log(data);
+			res.status(500).json(data);	
+		}
+	});
+
+	/*db.districts.insert(req.body, function(err, data) {
 		if(err) res.status(500).json(err);
 		else res.status(200).json(data);
-	});
+	});*/
 });
 
 //Get all districts
@@ -41,14 +58,6 @@ function findMax(data){
 	};
 	return max;
 }
-
-router.post("/", auth.ensureAuth(), function(req, res) {
-	//Validation
-	db.districts.insert(req.body, function(err, data) {
-		if(err) res.status(500).json(err);
-		else res.status(200).json(data);
-	});
-});
 
 //Get one district
 router.get("/:id", auth.ensureAuth(), function(req, res) {
