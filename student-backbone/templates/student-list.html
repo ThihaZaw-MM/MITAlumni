@@ -1,3 +1,25 @@
+<div class="row">
+	<div class="col-sm-6">
+    <label for="">Major</label>
+    <select class="form-control" id="major">
+      <% _.each(app.major, function(major, val) { %>
+        <option value="<%= val %>"><%= major %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div class="col-sm-3">
+  	<label for="">Batch</label>
+    <select class="form-control" id="batch">
+      <% _.each(app.batch, function(batch, val) { %>
+        <option value="<%= val %>"><%= batch %></option>
+      <% }); %>
+    </select>
+  </div>
+</div>
+
+<br>
+
 <table id="student-list-table"
 	class="table table-bordered" cellspacing="0" width="100%">
 	<thead>

@@ -21,6 +21,16 @@ var districtNewView = Backbone.View.extend({
   create: function() {
     
     var that = this;
+    var list = app.districtList.toJSON();
+    console.log(list);
+    for(i=0; i < list.length; i++){
+      var name = list[i].districtName;
+      console.log(name);
+      if(name == $("#districtName").val()){
+          alert("District already exit!");
+          return false;
+      }
+    }
     
       $.ajax({
         url: this.api("/districts/maxdistrictid/"),
@@ -30,17 +40,13 @@ var districtNewView = Backbone.View.extend({
           var districtId = Number(data["districtId"]) + 1; 
           var districtName = $("#districtName").val();
           
-          console.log(stateNumber);
-          console.log(districtId);
-          console.log(districtName);
-
           var model = new app.districtModel({
             "stateNumber" : stateNumber,
             "districtId" : districtId,
             "districtName" : districtName
           });
 
-          console.log(model);
+          //console.log(model);
 
           model.save(null, {
             wait: true,

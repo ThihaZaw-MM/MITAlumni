@@ -7,6 +7,8 @@ var loginView = Backbone.View.extend({
 
 	initialize: function() {
 		//
+		app.loadMajor();
+		app.loadBatch();
 	},
 
 	render: function() {
@@ -23,12 +25,7 @@ var loginView = Backbone.View.extend({
 
 			app.studentList.fetch({
 				success: function() {
-					var list = new studentListView();
-					$("#main").html( list.render().el );
-
-					var nav = new navView();
-					$("#nav").html( nav.render().el );
-
+					
 					app.loadDistrictList();
 					app.userList.fetch();
 		            app.loadStateNumbers();
@@ -39,6 +36,12 @@ var loginView = Backbone.View.extend({
 		            app.loadTownships();
           			app.loadDivisions();
 		            app.loadUserRoles();
+
+		            var list = new studentListView();
+					$("#main").html( list.render().el );
+
+					var nav = new navView();
+					$("#nav").html( nav.render().el );
 				}
 			}, function() {
 				$("#login-alert").show();
