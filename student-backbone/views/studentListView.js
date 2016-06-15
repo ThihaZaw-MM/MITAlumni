@@ -11,22 +11,27 @@ var studentListView = Backbone.View.extend({
   },
 
   filterStudent: function() {
-    var majorId = $("#major").val();
-    var batchId = $("#batch").val();
+    var majorId = Number($("#major").val());
+    var batchId = Number($("#batch").val());
     var that = this;
     var apiUrl = app.host + "/students"
 
-    if(majorId != 0 && batchId != 0) {
-      apiUrl += "/batchmajor/" + batchId + "/" + majorId;
-    }
-    else if(batchId !=0 && majorId == 0) {
-      apiUrl += "/bybatch/" + batchId 
-    }
-    else if(batchId == 0 && majorId != 0) {
-      apiUrl += "/bymajor/" + majorId  
-    }
+    app.studentList.fetch({ 
+      data: $.param({ batch: batchId, major: majorId}), 
+      reset: true,
+      success: function (collection, response, options) {
+          // you can pass additional options to the event you trigger here as well
+          //console.log("Fetch success!");
+          console.log(app.studentList.length);
 
-    //app.studentList.fetch({ data: $.param({ batch: batchId}) })
+          app.studentList.each(function(student) {
+            console.log(student.toJSON());
+          });
+      },
+      error: function (collection, response, options) {
+          // you can pass additional options to the event you trigger here as well
+      }
+    });
   },
 
   render: function() {

@@ -70,9 +70,37 @@ router.get("/major", auth.ensureAuth(), function(req, res) {
 
 //Get all students
 router.get("/",  function(req, res) {
-	db.students.find({}, function(err, data) {
-		res.status(200).json(data);
-	});
+
+	//console.log(req.url);
+	//console.log(req.query);
+	//console.log(req.query.batch);
+	var batchId = Number(req.query.batch);
+	var majorId = Number(req.query.major);
+
+	if(req.url == "/"){
+		console.log("Query undefined");
+		db.students.find({}, function(err, data) {
+			res.status(200).json(data);
+		});
+	} else {
+		if(batchId == 0 && majorId == 0){
+			db.students.find({}, function(err, data) {
+				res.status(200).json(data);
+			});	
+		} else if(batchId != 0 && majorId == 0){
+			db.students.find({batch : batchId}, function(err, data) {
+				res.status(200).json(data);
+			});
+		} else if(batchId == 0 && majorId != 0){
+			db.students.find({major : majorId}, function(err, data) {
+				res.status(200).json(data);
+			});
+		} else {
+			db.students.find({batch: batchId, major: majorId}, function(err, data) {
+				res.status(200).json(data);
+			});
+		}
+	}
 });
 
 router.get("/bybatch/:batch", function(req, res) {

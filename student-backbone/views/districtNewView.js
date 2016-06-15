@@ -22,11 +22,12 @@ var districtNewView = Backbone.View.extend({
     
     var that = this;
     var list = app.districtList.toJSON();
-    console.log(list);
+    //console.log(list);
     for(i=0; i < list.length; i++){
       var name = list[i].districtName;
-      //console.log(name);
-      if(name == $("#districtName").val()){
+      var sNumber = list[i].stateNumber;
+      //console.log(sNumber);
+      if(name == $("#districtName").val() && sNumber == $("#stateNumber").val()){
           alert("District already exit!");
           return false;
       }
@@ -57,7 +58,7 @@ var districtNewView = Backbone.View.extend({
             },
             error: function(res) {
               console.log(res);
-              alert("District already exit!");
+              alert("District id duplicate and try again!");
             }
           });
         }
