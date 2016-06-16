@@ -36,9 +36,12 @@ router.post("/", auth.ensureAuth(), function(req, res) {
 
 //Get all districts
 router.get("/",  function(req, res){
-	db.districts.find({}, function(err, data) {
+	db.districts.find().sort({stateNumber:1, districtName:1}, function(err, data) {
 		res.status(200).json(data);
 	});
+	/*db.districts.find({}, function(err, data) {
+		res.status(200).json(data);
+	});*/
 });
 
 router.get("/maxdistrictid", function(req, res) {
