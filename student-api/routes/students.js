@@ -75,6 +75,26 @@ router.get("/names", function(req, res) {
 		else res.sendStatus(400);
 	});
 });
+
+//Student login by app
+router.get("/login", function(req, res) {
+	var sName = req.query.studentName;
+	var stNumber = req.query.statenumber;
+	var dLabel = req.query.districtLabel;
+	var regNumber = req.query.nrcRegNumber;
+
+	db.students.findOne({studentName: sName, statenumber: stNumber, 
+		districtLabel: dLabel, 
+		nrcRegNumber: regNumber}, function(err, data) {
+      if(data)
+        res.status(200).json(data);
+      else {
+      	console.log("Not found!");
+      	res.sendStatus(404);
+      }
+    });
+
+});
 //Get all students
 router.get("/",  function(req, res) {
 
