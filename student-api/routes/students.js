@@ -68,6 +68,13 @@ router.get("/major", auth.ensureAuth(), function(req, res) {
   res.status(200).json(config.major);
 });
 
+//Get studentname group by
+router.get("/names", function(req, res) {
+	db.students.group({key:{studentName:1},reduce: function ( curr, result ) { },initial: { }}, function(err, data) {
+		if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+	});
+});
 //Get all students
 router.get("/",  function(req, res) {
 
