@@ -11,6 +11,10 @@ var navView = Backbone.View.extend({
     "click #logout": "logout"
   },
 
+  initialize: function() {
+    this.listenTo(app.studentList, 'reset', this.render);
+  },
+
   render: function() {
     var user = app.getUserInfo();
     if( user ) {
