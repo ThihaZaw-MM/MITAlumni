@@ -101,7 +101,7 @@ router.get("/",  function(req, res) {
 	//console.log(req.url);
 	//console.log(req.query);
 	//console.log(req.query.batch);
-	var batchId = Number(req.query.batch);
+	var batchId = req.query.batch;
 	var majorId = Number(req.query.major);
 
 	if(req.url == "/"){

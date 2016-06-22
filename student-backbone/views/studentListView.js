@@ -23,9 +23,12 @@ var studentListView = Backbone.View.extend({
           // you can pass additional options to the event you trigger here as well
           //console.log("Fetch success!");
           console.log(app.studentList.length);
+          $("tbody", this.$el).empty();
 
           app.studentList.each(function(student) {
-            console.log(student.toJSON());
+            //console.log(student.toJSON());
+            var view = new studentView({ model: student });
+            $("tbody", that.$el).append( view.render().el );
           });
       },
       error: function (collection, response, options) {
