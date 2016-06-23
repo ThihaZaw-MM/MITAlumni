@@ -30,7 +30,14 @@ app.use(cookieParser());
 app.use(validator());
 
 app.use(function(req, res, next) {
-  res.set("Access-Control-Allow-Origin", "http://thihazaw.com:8080");
+  var allowedOrigins = ['http://thihazaw.com:8080', 'http://localhost:8080'];
+  var origin = req.headers.origin;
+
+  if(allowedOrigins.indexOf(origin) > -1){
+       res.set("Access-Control-Allow-Origin", origin);
+  }
+
+  //res.set("Access-Control-Allow-Origin", "http://thihazaw.com:8080");
   res.set("Access-Control-Allow-Credentials", "true");
   res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   res.set('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
