@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(validator());
 
 app.use(function(req, res, next) {
-  var allowedOrigins = ['http://thihazaw.com:8080', 'http://localhost:8080'];
+  var allowedOrigins = ['http://thihazaw.com:8080', 'http://139.162.42.111:8080','http://localhost:8080'];
   var origin = req.headers.origin;
 
   if(allowedOrigins.indexOf(origin) > -1){
