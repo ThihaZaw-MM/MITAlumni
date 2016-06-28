@@ -33,7 +33,7 @@ router.get("/divisions", function(req, res) {
 });
 
 //Get townships
-router.get("/townships/:divisionid", auth.ensureAuth(), function(req, res) {
+router.get("/townships/:divisionid", function(req, res) {
 	var divId = Number(req.params.divisionid);
 
 	townshipDb.townships.find({divisionId: divId}, function(err, data) {
