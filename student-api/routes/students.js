@@ -19,7 +19,7 @@ router.get("/statenumbers", auth.ensureAuth(), function(req, res) {
 });
 
 // Get districts
-router.get("/districts", auth.ensureAuth(), function(req, res) {
+router.get("/districts", function(req, res) {
   //res.status(200).json(config.districts);
   distDb.districts.find({}, function(err, data) {
 		if(data) res.status(200).json(data);
@@ -28,7 +28,7 @@ router.get("/districts", auth.ensureAuth(), function(req, res) {
 });
 
 //Get divisions
-router.get("/divisions", auth.ensureAuth(), function(req, res) {
+router.get("/divisions", function(req, res) {
 	res.status(200).json(config.divisions);
 });
 
@@ -64,7 +64,7 @@ router.get("/batch", function(req, res) {
 });
 
 // Get Major
-router.get("/major", auth.ensureAuth(), function(req, res) {
+router.get("/major", function(req, res) {
   res.status(200).json(config.major);
 });
 
