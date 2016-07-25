@@ -249,7 +249,7 @@ router.post("/", auth.ensureRole(1), function(req, res) {
 });
 
 //Update an student
-router.put("/:id", auth.ensureRole(1), function(req, res) {
+router.put("/:id", function(req, res) {
 	var iid = req.params.id;
 
 	//Validation
