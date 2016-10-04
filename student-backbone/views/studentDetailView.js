@@ -9,6 +9,7 @@ var studentDetailView = Backbone.View.extend({
 		"click .change-batch": "changeBatch",
 		"click .change-assign": "changeState",
 		"click .change-status": "changeDistricts",
+		"click .change-gender": "changeGender",
 		"fileselect :file" : "uploadFile"
 	},
 
@@ -100,6 +101,31 @@ var studentDetailView = Backbone.View.extend({
 		this.model.save({
 			major: Number(major),
 			majorLabel: app.major[major]
+		}, {
+			patch: true,
+			wait: true,
+			success: function() {
+				var detail = new studentDetailView({model: that.model});
+				$("#main").html( detail.render().el );
+			}
+		});
+	},
+
+	changeGender: function(e) {
+
+		var gender = $(e.currentTarget).data("value");
+		var urlRoot = this.model.urlRoot;
+		var id = this.model.id;
+		var that = this;
+
+		console.log(gender);
+
+		this.model.url = function() {
+			return urlRoot + "/gender/" + id;
+		};
+
+		this.model.save({
+			gender: app.gender[gender]
 		}, {
 			patch: true,
 			wait: true,

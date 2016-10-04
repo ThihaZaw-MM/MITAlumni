@@ -1,4 +1,3 @@
-//console.log("Hello!");
 var express = require("express");
 var validator = require('express-validator');
 var cookieParser = require("cookie-parser");

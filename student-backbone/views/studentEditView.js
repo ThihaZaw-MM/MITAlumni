@@ -77,7 +77,6 @@ var studentEditView = Backbone.View.extend({
     var divisionId = $("#division").val();
     var townshipValue = $("#township").val();
 
-
     var that = this;
     this.model.save({
       "studentName" : name,

@@ -56,7 +56,8 @@ var studentView = Backbone.View.extend({
   tagName: "tr",
 
   events: {
-    "click .student-name": "viewDetail"
+    "click .student-name": "viewDetail",
+    "click #delete-student": "deleteStudent"
   },
 
   initialize: function() {
@@ -74,5 +75,25 @@ var studentView = Backbone.View.extend({
   viewDetail: function(e) {
     var detail = new studentDetailView({model: this.model});
     $("#main").html( detail.render().el );
+  },
+
+  deleteStudent: function(e) {
+    var studentId = this.model.id;
+    var urlRoot = this.model.urlRoot;
+    var id = this.model.id;
+    this.model.url = function() {
+      return urlRoot + "/" + id;
+    };
+    console.log(urlRoot + "/" + id);
+    this.model.destroy({
+      wait: true,
+      success: function() {
+        var list = new studentListView();
+        var nav = new navView();
+        $("#nav").html( nav.render().el );
+        $("#main").html( list.render().el );
+      }
+    });
   }
+
 });

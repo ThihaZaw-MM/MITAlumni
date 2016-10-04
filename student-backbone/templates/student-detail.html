@@ -114,6 +114,25 @@
 	      </ul>
 	    </div>
 
+	    <div class="btn-group btn-breadcrumb">
+	      <a href="#" class="btn btn-info">
+	        <span class="glyphicon glyphicon-user"></span>
+	      </a>
+	      <a href="#" class="btn btn-info">Gender</a>
+	      <a href="#" class="btn btn-default" data-toggle="dropdown">
+	      	<% if(gender == 'M' || gender == 'Male') { %> 
+	      	Male
+	      	<% } else { %>
+	      	Female
+	      	<% } %>
+	      <span class="caret"></span></a>
+	      <ul class="dropdown-menu dropdown-menu-right">
+	        <% _.each(app.gender, function(label, priority) { %>
+	          <li><a href="#" class="change-gender" data-value="<%= priority %>"><%= label %></a></li>
+	        <% }) %>
+	      </ul>
+	    </div>
+
 	    <hr>
 
 	    <div class="btn-group btn-breadcrumb">

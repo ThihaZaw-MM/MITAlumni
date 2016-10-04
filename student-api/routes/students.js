@@ -13,6 +13,20 @@ var db = mongojs('AddressBook', ['students']);
 var distDb = mongojs('AddressBook', ['districts']);
 var townshipDb = mongojs('AddressBook', ['townships']);
 
+router.get("/getPdf", function(req, res) {
+	console.log("Hello!");
+	var fs = require('fs');
+	var pdf = require('html-pdf');
+	console.log(pdf);
+	var html = fs.readFileSync(__dirname + "/uploads/businesscard.html", 'utf8');
+	var options = { format: 'Letter' };
+	pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
+	  	if (err) return console.log(err);
+	  	console.log(res); // { filename: '/app/businesscard.pdf' } 
+	});
+	res.status(200);
+});
+
 //Get stateNumbers
 router.get("/statenumbers", auth.ensureAuth(), function(req, res) {
   res.status(200).json(config.statenumber);
@@ -105,7 +119,6 @@ router.get("/",  function(req, res) {
 	var majorId = Number(req.query.major);
 
 	if(req.url == "/"){
-		console.log("Query undefined");
 		db.students.find({}, function(err, data) {
 			res.status(200).json(data);
 		});
@@ -294,7 +307,7 @@ router.put("/:id", function(req, res) {
 });
 
 //Delete an student
-router.delete("/:id", auth.ensureSubmitter(), function(req, res) {
+router.delete("/:id", auth.ensureRole(1), function(req, res) {
 	var iid = req.params.id;
 
 	//Validation
@@ -328,6 +341,35 @@ router.patch("/major/:id", auth.ensureRole(1), function(req, res) {
 	var newData = {
 		major: req.body.major,
 		majorLabel: config.major[req.body.major],
+		modifiedAt: new Date()
+	};
+
+	db.students.update(
+		{ _id: mongojs.ObjectId(iid) },
+		{ $set: newData },
+		{ multi: false },
+		function(err, data) {
+			if(err) res.status(500).json(err);
+			else res.status(200).json(data);
+		}
+	);
+});
+
+router.patch("/gender/:id", auth.ensureRole(1), function(req, res) {
+	var iid = req.params.id;
+
+	//Validation
+	req.checkParams("id", "Invalid Student ID").isMongoId();
+	//req.checkBody("type", "Invalid major").isInt();
+
+	var errors = req.validationErrors();
+	if(errors) {
+		res.status(400).json(errors);
+		return false;
+	}
+
+	var newData = {
+		gender: req.body.gender,
 		modifiedAt: new Date()
 	};
 
@@ -449,33 +491,9 @@ var upload = multer({ storage : storage}).single('userPhoto');
 
 router.post("/photo/:id", function(req, res) {
 
-	/*var responseServerPath = 'images/' + req.files.userPhoto.name;
-	var serverPath = '/uploads/' + req.files.userPhoto.name;
- 	console.log(req.files.userPhoto.path);
-
- 	require('fs').rename(
-		req.files.userPhoto.path,
-		serverPath,
-		function(error) {
-			if(error) {
-				console.log(error);
-				res.send({
-					error: 'Ah crap! Something bad happened'
-				});
-				return;
-			}
-			 
-			res.send({
-				path: responseServerPath
-			});
-		}
-	);*/
-	//console.log(req.body);
 	var iid = req.params.id;
-	//console.log(iid);
 	req.checkParams("id", "Invalid Student ID").isMongoId();
 
-	//req.checkBody("type", "Invalid major").isInt();
 
 	var errors = req.validationErrors();
 	if(errors) {
