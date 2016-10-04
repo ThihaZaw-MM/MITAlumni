@@ -119,7 +119,6 @@ router.get("/",  function(req, res) {
 	var majorId = Number(req.query.major);
 
 	if(req.url == "/"){
-		console.log("Query undefined");
 		db.students.find({}, function(err, data) {
 			res.status(200).json(data);
 		});
@@ -342,6 +341,35 @@ router.patch("/major/:id", auth.ensureRole(1), function(req, res) {
 	var newData = {
 		major: req.body.major,
 		majorLabel: config.major[req.body.major],
+		modifiedAt: new Date()
+	};
+
+	db.students.update(
+		{ _id: mongojs.ObjectId(iid) },
+		{ $set: newData },
+		{ multi: false },
+		function(err, data) {
+			if(err) res.status(500).json(err);
+			else res.status(200).json(data);
+		}
+	);
+});
+
+router.patch("/gender/:id", auth.ensureRole(1), function(req, res) {
+	var iid = req.params.id;
+
+	//Validation
+	req.checkParams("id", "Invalid Student ID").isMongoId();
+	//req.checkBody("type", "Invalid major").isInt();
+
+	var errors = req.validationErrors();
+	if(errors) {
+		res.status(400).json(errors);
+		return false;
+	}
+
+	var newData = {
+		gender: req.body.gender,
 		modifiedAt: new Date()
 	};
 

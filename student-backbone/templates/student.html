@@ -3,7 +3,11 @@
 	<% if(photoUrl != null) { %>
       <img height="40" src=<%= photoUrl%> id="profilePhoto"/>
     <% } else { %>
-      <img height="50" src="/./images/default_pic.png" alt="Student Photo" id="profilePhoto"/>
+    	<% if(gender == 'M' || gender == 'Male') { %>
+      		<img height="50" src="/./images/default_male.png" alt="Student Photo" id="profilePhoto"/>
+      	<% } else { %>
+      		<img height="50" src="/./images/default_female.png" alt="Student Photo" id="profilePhoto"/>
+      	<% } %>
     <% } %>
 	<a href="#" data-id="<%= _id %>" class="student-name">
 		<%= studentName %>
@@ -23,4 +27,9 @@
 </td>
 <td>
 	<%= contact1 %>
+</td>
+<td>
+	<button class="btn btn-default btn-sm" id="delete-student">
+		<span class="glyphicon glyphicon-trash text-danger"></span>
+	</button>
 </td>
