@@ -29,7 +29,12 @@
 								<% if(photoUrl != null) { %>
 						          <img height="150" src=<%= photoUrl%> id="profilePhoto"/>
 						        <% } else { %>
-						          <img height="150" src="/./images/default_pic.png" alt="Student Photo" id="profilePhoto"/>
+						        	<% if(gender == 'M' || gender == 'Male') { %>
+							      		<img height="150" src="/./images/default_male.png" alt="Student Photo" id="profilePhoto"/>
+							      	<% } else { %>
+							      		<img height="150" src="/./images/default_female.png" alt="Student Photo" id="profilePhoto"/>
+							      	<% } %>
+						          
 						        <% } %>
 							</div>
 						</div>
