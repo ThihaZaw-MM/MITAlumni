@@ -1,6 +1,6 @@
 var app = {
-	//host: "http://139.162.42.111:3000/api",
-	host: "http://localhost:3000/api",
+	host: "http://139.162.42.111:3000/api",
+	//host: "http://localhost:3000/api",
 
 	api: function(path) {
 		return app.host + path;
