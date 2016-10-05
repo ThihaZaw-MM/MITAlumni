@@ -177,7 +177,7 @@ var app = {
 	init: function() {
 		this.loadTemplates(['nav', 'login', 'student-list', 'student', 'student-new', 
 			'student-detail', 'student-edit', 'district-list', 'district' ,'district-new', 'district-edit', 
-			'user-list', 'user', 'user-profile', 
+			'address-book','user-list', 'user', 'user-profile', 
 			'user-edit', 'user-new'], function() {
 			new appView();
 		});

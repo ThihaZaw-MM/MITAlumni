@@ -6,6 +6,7 @@ var navView = Backbone.View.extend({
     "click #new-student": "showNewStudentForm",
     "click #student-list": "showStudentList",
     "click #district-list": "showDistrictList",
+    "click #addressbook": "showAddressBook",
     "click #user-list": "showUserList",
     "click #profile": "showProfile",
     "click #logout": "logout"
@@ -56,6 +57,14 @@ var navView = Backbone.View.extend({
 
     var list = new districtListView();
     $("#main").html( list.render().el );
+  },
+
+  showAddressBook: function(e) {
+    $(".nav li").removeClass('active');
+    $(e.currentTarget).parent().addClass('active');
+
+    var book = new addressBookView();
+    $("#main").html( book.render().el );
   },
 
   showUserList: function(e) {
