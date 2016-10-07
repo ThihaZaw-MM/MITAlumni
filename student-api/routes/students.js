@@ -60,10 +60,15 @@ router.get("/townships/:divisionid", function(req, res) {
 router.get("/districts/:statenumber", function(req, res) {
   var snumber = Number(req.params.statenumber);
 
-  distDb.districts.find({stateNumber: snumber}, function(err, data) {
+  distDb.districts.find({stateNumber: snumber}).sort({districtName:-1}, function(err, data){
+  	if(data) res.status(200).json(data);
+		else res.sendStatus(400);
+  });
+
+  /*distDb.districts.find({stateNumber: snumber}, function(err, data) {
 		if(data) res.status(200).json(data);
 		else res.sendStatus(400);
-	});
+	});*/
 });
 
 // Get gender
