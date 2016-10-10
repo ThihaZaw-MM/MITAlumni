@@ -1,6 +1,6 @@
 <td><%= index %></td>
 <td>
-	<!--<% if(photoUrl != null) { %>
+	<% if(photoUrl != null) { %>
       <img height="40" src=<%= photoUrl %> id="profilePhoto"/>
     <% } else { %>
     	<% if(gender == 'M' || gender == 'Male') { %>
@@ -8,12 +8,7 @@
       	<% } else { %>
       		<img height="50" src="/./images/default_female.png" alt="Student Photo" id="profilePhoto"/>
       	<% } %>
-    <% } %>-->
-    <% if(gender == 'M' || gender == 'Male') { %>
-  		<img height="50" src="/./images/default_male.png" alt="Student Photo" id="profilePhoto"/>
-  	<% } else { %>
-  		<img height="50" src="/./images/default_female.png" alt="Student Photo" id="profilePhoto"/>
-  	<% } %>
+    <% } %>
 	<a href="#" data-id="<%= _id %>" class="student-name">
 		<%= studentName %>
 	</a>

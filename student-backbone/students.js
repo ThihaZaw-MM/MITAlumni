@@ -16,6 +16,13 @@ app.studentModel = Backbone.Model.extend({
 		"contact1" : null,
 		"contact2" : null,
 		"fbprofile" : null,
+		"photoUrl" : null,
+		"email" : "",
+		"address" : "",
+		"divisionId" : "",
+		"divisionName" : "",
+		"townshipId" : "",
+		"townshipName" : ""
 	},
 	idAttribute: "_id"
 });
