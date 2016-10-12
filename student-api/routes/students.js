@@ -133,15 +133,18 @@ router.get("/",  function(req, res) {
 				res.status(200).json(data);
 			});	
 		} else if(batchId != 0 && majorId == 0){
-			db.students.find({batch : batchId}, function(err, data) {
+			db.students.find({batch : batchId}).sort({studentName : 1}, function(err, data){
 				res.status(200).json(data);
 			});
+			/*db.students.find({batch : batchId}, function(err, data) {
+				res.status(200).json(data);
+			});*/
 		} else if(batchId == 0 && majorId != 0){
-			db.students.find({major : majorId}, function(err, data) {
+			db.students.find({major : majorId}).sort({studentName : 1}, function(err, data) {
 				res.status(200).json(data);
 			});
 		} else {
-			db.students.find({batch: batchId, major: majorId}, function(err, data) {
+			db.students.find({batch: batchId, major: majorId}).sort({studentName : 1}, function(err, data) {
 				res.status(200).json(data);
 			});
 		}
