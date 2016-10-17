@@ -121,6 +121,7 @@ router.get("/",  function(req, res) {
 	//console.log(req.query);
 	//console.log(req.query.batch);
 	var batchId = req.query.batch;
+	var batchIdNum = Number(req.query.batch);
 	var majorId = Number(req.query.major);
 
 	if(req.url == "/"){
@@ -133,9 +134,15 @@ router.get("/",  function(req, res) {
 				res.status(200).json(data);
 			});	
 		} else if(batchId != 0 && majorId == 0){
-			db.students.find({batch : batchId}).sort({studentName : 1}, function(err, data){
+
+			db.students.find({$or:[{batch : batchId},{batch : batchIdNum}]}).sort({studentName : 1}, 
+				function(err, data){
 				res.status(200).json(data);
 			});
+
+			/*db.students.find({batch : batchId}).sort({studentName : 1}, function(err, data){
+				res.status(200).json(data);
+			});*/
 			/*db.students.find({batch : batchId}, function(err, data) {
 				res.status(200).json(data);
 			});*/
